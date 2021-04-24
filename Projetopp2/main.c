@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "ll.h"
+#include <locale.h>
 
 // Estruturas de Dados
 
@@ -17,17 +19,17 @@ typedef struct dados
 {
 	int numero;
 	char nome[50];
-	Preferencias preferencias[5]; // ordem de preferências (máximo de 5)
+	Preferencias preferencias[5]; // ordem de preferï¿½ncias (mï¿½ximo de 5)
 }*Jogador;
 
-// Protótipos
+// Protï¿½tipos
 
 void show(void* data);
 int igual(void* data1, void* data2);
 void main();
 
 
-// Implementações
+// Implementaï¿½ï¿½es
 
 // Escrita na consola do dados de um jogador
 void show(void* data)
@@ -40,7 +42,7 @@ void show(void* data)
 	printf("\n");
 }
 
-// Se iguais devolve 1 senão devolve 0
+// Se iguais devolve 1 senï¿½o devolve 0
 int igual(void* data1, void* data2)
 {
 	int* d1 = (int*)data1;
@@ -52,47 +54,112 @@ int igual(void* data1, void* data2)
 // Procedimento principal
 void main()
 {
+	bool running = true;
+	int answer;
+	FILE *file = NULL;
 	ListElem lista = NULL;
-	Jogador j;
+	setlocale(LC_ALL, "Portuguese");
+	Jogador j = (Jogador*) malloc(sizeof(Jogador));
+	do
+	{
+		printf("\n\tMENU\n");
+		printf("-------------------------------------------\n");
+		printf("(1) Carregar dados de texto\n");
+		printf("(2) Escrever dados em tabela\n");
+		printf("(3) Exportar os dados em tabela de texto\n");
+		printf("(4) Sair do programa\n");
+		printf("-------------------------------------------\n");
+		printf("Choose one option: ");
+		scanf("%d",&answer);
+		switch (answer)
+		{
+			case 1:
+				file = fopen("dados.txt", "r");
+				if (file == NULL)
+				{
+					printf("Error!");
+				}
+				else
+				{
+					char line[256];
+					while (fgets(line, sizeof(line), file)) 
+					{
+						for (int i = 0; i < strlen(line); i++)
+						{
+							if (line[i] == '\n')
+							{
+								break;
+							}
+							else if (i == 0 && lista == NULL)
+							{
+								addItemHead(lista, line[0]);
+							}
+							else if(line[i] != ' ')
+							{
+								
+							}
+						}
+					}
+					//showListIterative(lista, &show);
+				}
+				fclose(file);
+				break;
+			case 2:
+				showListIterative(lista,&show);
+				break;
+			case 3:
+				break;
+			case 4:
+				running = false;
+				printf("Thank You for playing\n");
+				break;
+			default:
+				printf("Not a valid option!");
+				break;
+		}
+	}
+	while (running);
+	//ListElem lista = NULL;
+	//Jogador j;
 
-	j = (Jogador)malloc(sizeof(struct dados));
-	j->numero = 1;
-	strcpy(j->nome, "Joao");
-	strcpy(j->preferencias[0].arma, "sniper");
-	j->preferencias[0].pontuacao = 87;
-	strcpy(j->preferencias[1].arma, "pistola");
-	j->preferencias[1].pontuacao = 67;
-	strcpy(j->preferencias[2].arma, "metralhadora");
-	j->preferencias[2].pontuacao = 57;
-	strcpy(j->preferencias[3].arma, "-");
-	j->preferencias[3].pontuacao = 0;
-	strcpy(j->preferencias[4].arma, "-");
-	j->preferencias[4].pontuacao = 0;
-	lista = addItemHead(lista, j);
+	//j = (Jogador)malloc(sizeof(struct dados));
+	//j->numero = 1;
+	//strcpy(j->nome, "Joao");
+	//strcpy(j->preferencias[0].arma, "sniper");
+	//j->preferencias[0].pontuacao = 87;
+	//strcpy(j->preferencias[1].arma, "pistola");
+	//j->preferencias[1].pontuacao = 67;
+	//strcpy(j->preferencias[2].arma, "metralhadora");
+	//j->preferencias[2].pontuacao = 57;
+	//strcpy(j->preferencias[3].arma, "-");
+	//j->preferencias[3].pontuacao = 0;
+	//strcpy(j->preferencias[4].arma, "-");
+	//j->preferencias[4].pontuacao = 0;
+	//lista = addItemHead(lista, j);
 
-	j = (Jogador)malloc(sizeof(struct dados));
-	j->numero = 2;
-	strcpy(j->nome, "Maria");
-	strcpy(j->preferencias[0].arma, "metralhadora");
-	j->preferencias[0].pontuacao = 77;
-	strcpy(j->preferencias[1].arma, "sniper");
-	j->preferencias[1].pontuacao = 79;
-	strcpy(j->preferencias[2].arma, "-");
-	j->preferencias[2].pontuacao = 0;
-	strcpy(j->preferencias[3].arma, "-");
-	j->preferencias[3].pontuacao = 0;
-	strcpy(j->preferencias[4].arma, "-");
-	j->preferencias[4].pontuacao = 0;
-	lista = addItemHead(lista, j);
+	//j = (Jogador)malloc(sizeof(struct dados));
+	//j->numero = 2;
+	//strcpy(j->nome, "Maria");
+	//strcpy(j->preferencias[0].arma, "metralhadora");
+	//j->preferencias[0].pontuacao = 77;
+	//strcpy(j->preferencias[1].arma, "sniper");
+	//j->preferencias[1].pontuacao = 79;
+	//strcpy(j->preferencias[2].arma, "-");
+	//j->preferencias[2].pontuacao = 0;
+	//strcpy(j->preferencias[3].arma, "-");
+	//j->preferencias[3].pontuacao = 0;
+	//strcpy(j->preferencias[4].arma, "-");
+	//j->preferencias[4].pontuacao = 0;
+	//lista = addItemHead(lista, j);
 
-	// Escrita na consola do conteúdo da lista ligada
-	showListIterative(lista, &show);
+	//// Escrita na consola do conteï¿½do da lista ligada
+	//showListIterative(lista, &show);
 
-	printf("----------------\n");
-	int numero = 2;
-	// Remoção da primeiro ocorrência do registo com número de jogador 2
-	lista = removeItemIterative(lista, &numero, &igual);
+	//printf("----------------\n");
+	//int numero = 2;
+	//// Remoï¿½ï¿½o da primeiro ocorrï¿½ncia do registo com nï¿½mero de jogador 2
+	//lista = removeItemIterative(lista, &numero, &igual);
 
-	// Escrita na consola do conteúdo da lista ligada
-	showListIterative(lista, &show);
+	//// Escrita na consola do conteï¿½do da lista ligada
+	//showListIterative(lista, &show);
 }

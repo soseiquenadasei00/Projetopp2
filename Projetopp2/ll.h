@@ -5,6 +5,11 @@ typedef struct sListElem {
 	struct sListElem* next;
 } *ListElem, SListElem;
 
+typedef struct sListLists {
+	struct sListElem list;
+	struct sListLists* next;
+} LISTofLISTS;
+
 // Insert a new element with *data in the head of the list 
 // *data must point to storage in the heap
 ListElem addItemHead(ListElem head, void* data);
@@ -36,4 +41,3 @@ ListElem removeItemIterative(ListElem head, void* data, int (*compare)(void* dat
 
 // Removes the first item on the list that compares positively with *data through function compare, recursively
 ListElem removeItemRecursive(ListElem head, void* data, int (*compare)(void* data1, void* data2));
-

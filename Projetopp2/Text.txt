@@ -1,4 +1,35 @@
 ordem do trbalho
 2->1->3
 
+OBS: TIPOS 
+
+-PISTOLA
+-METRALHADORA DE JEUVA 
+-SNIPER 
+-ESPINGARDA 
+-LMG
+
 criar typedef para as armas e suas características 
+
+2 --->> Distribuição das armas das listas ligadas 
+
+-NOTA: preferencias é uma array de 5 (listas)
+
+-NOTA2: A atribuição de arma depende da pontuação, se não tiver pontos sufientes fica sem arma
+
+2.1 --> Organizar as armas com base na sua pontuação 
+
+2.2 --> atribuir uma arma de combate a cada jogador (em relação a preferencia) -- > Preferencia 1 é a principal
+
+
+1 --->> Leitura do ficheiro e colocar os dados em listas ligadas 
+
+1.1 --->> salvar os dados em listas ligadas ( ou seja, para cada linha linkamos a uma lista )
+
+3   --->> Exportar todos os dados
+
+3.1 -->> Exportar em uma tabela os dados organizados.
+
+Extra : 
+
+Menu- feito 

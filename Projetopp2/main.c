@@ -58,6 +58,33 @@ void main()
 	int answer;
 	FILE *file = NULL;
 	ListElem lista = NULL;
+
+	LISTofLISTS linkedListsofLists = NULL;
+	ListElem List1 = NULL;
+	ListElem List2 = NULL;
+
+	List1 = addItem(List1, (int*)10);
+	List1 = addItem(List1, (int*)20);
+	List1 = addItem(List1, (int*)30);
+	printf("lista 1\n");
+	printList(List1);
+	printf("\n");
+
+	List2 = addItem(List2, (int*)30);
+	List2 = addItem(List2, (int*)20);
+	List2 = addItem(List2, (int*)10);
+	printf("lista 2\n");
+	printList(List2);
+	printf("\n");
+	printf("Lista de listas ligadas\n");
+	linkedListsofLists = addItem2(linkedListsofLists, List1);
+	printList2(linkedListsofLists);
+	printf("\n");
+	linkedListsofLists = addItem2(linkedListsofLists, List2);
+	printList2(linkedListsofLists);
+
+	
+
 	setlocale(LC_ALL, "Portuguese");
 	Jogador j = (Jogador*) malloc(sizeof(Jogador));
 	do

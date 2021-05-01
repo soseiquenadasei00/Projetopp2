@@ -9,11 +9,14 @@ typedef struct sListLists {
 	struct sListElem* list;
 	struct sListLists* next;
 }*LISTofLISTS;
+
 //functions to add items to list and list of lists and print them
 ListElem addItem(ListElem list, void* value);
 LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2);
 void printList(ListElem list);
-void printList2(ListElem list);
+void printList2(LISTofLISTS list);
+
+LISTofLISTS readFile();
 
 
 // Insert a new element with *data in the head of the list 

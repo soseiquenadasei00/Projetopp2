@@ -5,6 +5,42 @@
 
 #include "ll.h"
 
+LISTofLISTS readFile()
+{
+	FILE* file;
+	char address[200];
+	char line[80];
+	printf("Data address: ");
+	scanf("%s",&address);
+	if (fopen(address, "r"))
+	{
+		LISTofLISTS returnList = NULL;
+		file = fopen(address, "r");
+		while (fgets(line, 80, file))
+		{
+			ListElem dataList = NULL;
+			ListElem tempList = NULL;
+			for (int i = 0; i < strlen(line); i++)
+			{
+				//if blank sapce found, add item to data list and set item to nothing
+				if (line[i] == 32)
+				{
+					dataList = addItem(dataList, (ListElem*)tempList);
+					tempList = NULL;
+				}
+				else//add char to item found
+				{
+					tempList = addItem(tempList, (char*)line[i]);
+				}
+			}
+			returnList = addItem2(returnList, dataList);
+		}
+		fclose(file);
+		return returnList;
+	}
+	return;
+}
+
 ListElem addItem(ListElem list, void* value)
 {
 	if (list == NULL)
@@ -62,12 +98,17 @@ void printList(ListElem list)
 	ListElem aux = list;
 	while (aux != NULL)
 	{
-		printf("%d -> ", aux->data);
+		ListElem data = (ListElem*)(aux->data);
+		while (data != NULL)
+		{
+			printf("%c ", data->data);
+			data = data->next;
+		}
 		aux = aux->next;
 	}
 }
 
-void printList2(ListElem list)
+void printList2(LISTofLISTS list)
 {
 	LISTofLISTS aux = list;
 	while (aux != NULL)

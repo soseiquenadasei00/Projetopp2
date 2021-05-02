@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "ll.h"
 #include <locale.h>
+#include<conio.h>
 
 // Estruturas de Dados
 
@@ -75,11 +76,22 @@ void main()
 		{
 			case 1:
 				list = readFile();
-				printf("Read list\n");
-				printList2(list);
+				printf("Press any key to continue");
+				getchar();
+				system("cls");
 				break;
 			case 2:
-				//showListIterative(lista,&show);
+				if (list == NULL)
+				{
+					printf("No data loaded\n\n");
+				}
+				else
+				{
+					printList2(list);
+				}
+				printf("Press any key to continue");
+				getchar();
+				system("cls");
 				break;
 			case 3:
 				break;
@@ -93,47 +105,4 @@ void main()
 		}
 	}
 	while (running);
-	//ListElem lista = NULL;
-	//Jogador j;
-
-	//j = (Jogador)malloc(sizeof(struct dados));
-	//j->numero = 1;
-	//strcpy(j->nome, "Joao");
-	//strcpy(j->preferencias[0].arma, "sniper");
-	//j->preferencias[0].pontuacao = 87;
-	//strcpy(j->preferencias[1].arma, "pistola");
-	//j->preferencias[1].pontuacao = 67;
-	//strcpy(j->preferencias[2].arma, "metralhadora");
-	//j->preferencias[2].pontuacao = 57;
-	//strcpy(j->preferencias[3].arma, "-");
-	//j->preferencias[3].pontuacao = 0;
-	//strcpy(j->preferencias[4].arma, "-");
-	//j->preferencias[4].pontuacao = 0;
-	//lista = addItemHead(lista, j);
-
-	//j = (Jogador)malloc(sizeof(struct dados));
-	//j->numero = 2;
-	//strcpy(j->nome, "Maria");
-	//strcpy(j->preferencias[0].arma, "metralhadora");
-	//j->preferencias[0].pontuacao = 77;
-	//strcpy(j->preferencias[1].arma, "sniper");
-	//j->preferencias[1].pontuacao = 79;
-	//strcpy(j->preferencias[2].arma, "-");
-	//j->preferencias[2].pontuacao = 0;
-	//strcpy(j->preferencias[3].arma, "-");
-	//j->preferencias[3].pontuacao = 0;
-	//strcpy(j->preferencias[4].arma, "-");
-	//j->preferencias[4].pontuacao = 0;
-	//lista = addItemHead(lista, j);
-
-	//// Escrita na consola do conte�do da lista ligada
-	//showListIterative(lista, &show);
-
-	//printf("----------------\n");
-	//int numero = 2;
-	//// Remo��o da primeiro ocorr�ncia do registo com n�mero de jogador 2
-	//lista = removeItemIterative(lista, &numero, &igual);
-
-	//// Escrita na consola do conte�do da lista ligada
-	//showListIterative(lista, &show);
 }

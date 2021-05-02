@@ -2,10 +2,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 typedef struct sListElem {
 	void* data;
+	int index;
 	struct sListElem* next;
 } *ListElem, SListElem;
 
 typedef struct sListLists {
+	int index;
 	struct sListElem* list;
 	struct sListLists* next;
 }*LISTofLISTS;
@@ -15,6 +17,11 @@ ListElem addItem(ListElem list, void* value);
 LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2);
 void printList(ListElem list);
 void printList2(LISTofLISTS list);
+void printElement(ListElem list, int index);
+
+void* getDataOfListElem(ListElem list,int index);
+
+ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index);
 
 LISTofLISTS readFile();
 

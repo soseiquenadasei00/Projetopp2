@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dataManager.c" />
     <ClCompile Include="ll.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dataManager.h" />
     <ClInclude Include="ll.h" />
   </ItemGroup>
   <ItemGroup>

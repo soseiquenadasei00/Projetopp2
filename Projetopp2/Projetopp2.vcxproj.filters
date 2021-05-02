@@ -21,10 +21,16 @@
     <ClCompile Include="ll.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dataManager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ll.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dataManager.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

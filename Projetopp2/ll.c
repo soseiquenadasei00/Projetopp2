@@ -43,11 +43,13 @@ LISTofLISTS readFile()
 
 ListElem addItem(ListElem list, void* value)
 {
+	int index = 0;
 	if (list == NULL)
 	{
 		ListElem newList = malloc(sizeof(ListElem));
 		newList->data = value;
 		newList->next = NULL;
+		newList->index = index;
 		list = newList;
 		return list;
 	}
@@ -57,10 +59,12 @@ ListElem addItem(ListElem list, void* value)
 		while (list->next != NULL)
 		{
 			list = list->next;
+			index = list->index;
 		}
 		ListElem newItem = malloc(sizeof(ListElem));
 		newItem->data = value;
 		newItem->next = NULL;
+		newItem->index = index + 1;
 		list->next = newItem;
 		list = aux;
 		return list;
@@ -69,11 +73,13 @@ ListElem addItem(ListElem list, void* value)
 
 LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 {
+	int index = 0;
 	if (list1 == NULL)
 	{
 		LISTofLISTS newList = malloc(sizeof(LISTofLISTS));
 		newList->list = list2;
 		newList->next = NULL;
+		newList->index = index;
 		list1 = newList;
 		return list1;
 	}
@@ -83,13 +89,32 @@ LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 		while (list1->next != NULL)
 		{
 			list1 = list1->next;
+			index = list1->index;
 		}
 		LISTofLISTS newItem = malloc(sizeof(LISTofLISTS));
 		newItem->list = list2;
 		newItem->next = NULL;
+		newItem->index = index+1;
 		list1->next = newItem;
 		list1 = aux;
 		return list1;
+	}
+}
+
+void printElement(ListElem list,int index)
+{
+	if (list != NULL)
+	{
+		ListElem aux = list;
+		while (aux != NULL && aux->index != index)
+		{
+			ListElem data = aux->data;
+			while (data!=NULL)
+			{
+				printf("%c", data);
+				data = data->next;
+			}
+		}
 	}
 }
 
@@ -101,7 +126,7 @@ void printList(ListElem list)
 		ListElem data = (ListElem*)(aux->data);
 		while (data != NULL)
 		{
-			printf("%c ", data->data);
+			printf("%c", data->data);
 			data = data->next;
 		}
 		aux = aux->next;
@@ -116,6 +141,45 @@ void printList2(LISTofLISTS list)
 		printList(aux->list);
 		printf("\n");
 		aux = aux->next;
+	}
+}
+
+void* getDataOfListElem(ListElem list,int index)
+{
+	if (list != NULL)
+	{
+		ListElem aux = list;
+		while (aux->index != index)
+		{
+			aux = aux->next;
+		}
+		if (aux != NULL)
+		{
+			return aux->data;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+}
+ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index)
+{
+	if (list != NULL)
+	{
+		LISTofLISTS aux = list;
+		while (aux->index != index)
+		{
+			aux = aux->next;
+		}
+		if (aux != NULL)
+		{
+			return aux->list;
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 }
 

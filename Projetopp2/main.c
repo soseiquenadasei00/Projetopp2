@@ -76,8 +76,6 @@ void main()
 		{
 			case 1:
 				list = readFile();
-				printf("Press any key to continue");
-				getchar();
 				system("cls");
 				break;
 			case 2:
@@ -88,10 +86,17 @@ void main()
 				else
 				{
 					printList2(list);
+					ListElem listElement = getDataOfLISTofLISTS(list, 1);
+					printf("\n");
+					printList(listElement);
+					printf("\n");
+					listElement = getDataOfListElem(listElement, 2);
+					printElement(listElement);
+					printf("\n\n");
 				}
 				printf("Press any key to continue");
 				getchar();
-				system("cls");
+				//system("cls");
 				break;
 			case 3:
 				break;

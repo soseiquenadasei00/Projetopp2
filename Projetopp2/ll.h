@@ -17,9 +17,9 @@ ListElem addItem(ListElem list, void* value);
 LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2);
 void printList(ListElem list);
 void printList2(LISTofLISTS list);
-void printElement(ListElem list, int index);
+void printElement(ListElem list);
 
-void* getDataOfListElem(ListElem list,int index);
+ListElem getDataOfListElem(ListElem list,int index);
 
 ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index);
 

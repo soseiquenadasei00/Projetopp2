@@ -5,42 +5,54 @@
 
 #include "ll.h"
 
+/*Read text file*/
 LISTofLISTS readFile()
 {
 	FILE* file;
 	char address[200];
-	char line[80];
+	char line[100];
 	printf("Data address: ");
 	scanf("%s",&address);
 	if (fopen(address, "r"))
 	{
 		LISTofLISTS returnList = NULL;
 		file = fopen(address, "r");
-		while (fgets(line, 80, file))
+		while (fgets(line, 100, file))
 		{
-			ListElem dataList = NULL;
+			ListElem dataList1 = NULL;
 			ListElem tempList = NULL;
+
 			for (int i = 0; i < strlen(line); i++)
 			{
-				//if blank sapce found, add item to data list and set item to nothing
-				if (line[i] == 32)
+				//if blank sapce or new line command found, add item to data list and set item to nothing
+				if (line[i] == 32 || line[i] == 10)//espaço e nova linha
 				{
-					dataList = addItem(dataList, (ListElem*)tempList);
+					//if (dataList != NULL)//se lista não for vazia adicionar esapço
+					//{
+					//	ListElem spaceElement = NULL;
+					//	spaceElement = addItem(spaceElement, (char*)' ');
+					//	dataList = addItem(dataList, (ListElem*)spaceElement);
+					//}
+					dataList1 = addItem(dataList1, (ListElem*)tempList);
 					tempList = NULL;
 				}
 				else//add char to item found
 				{
+					//palavra a ser formada
 					tempList = addItem(tempList, (char*)line[i]);
 				}
 			}
-			returnList = addItem2(returnList, dataList);
+			returnList = addItem2(returnList, dataList1);
 		}
 		fclose(file);
 		return returnList;
 	}
-	return;
+	else
+	{
+		return NULL;
+	}
 }
-
+/*add items to a linked list of type ListElem*/
 ListElem addItem(ListElem list, void* value)
 {
 	int index = 0;
@@ -70,7 +82,7 @@ ListElem addItem(ListElem list, void* value)
 		return list;
 	}
 }
-
+/*add items to a linked list of type LISTofLISTS*/
 LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 {
 	int index = 0;
@@ -85,6 +97,7 @@ LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 	}
 	else
 	{
+		//manter a origem da lista ligada
 		LISTofLISTS aux = list1;
 		while (list1->next != NULL)
 		{
@@ -101,38 +114,58 @@ LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 	}
 }
 
-void printElement(ListElem list,int index)
-{
-	if (list != NULL)
-	{
-		ListElem aux = list;
-		while (aux != NULL && aux->index != index)
-		{
-			ListElem data = aux->data;
-			while (data!=NULL)
-			{
-				printf("%c", data);
-				data = data->next;
-			}
-		}
-	}
-}
-
+/*prints linked list with data types linked list*/
 void printList(ListElem list)
 {
 	ListElem aux = list;
+
 	while (aux != NULL)
 	{
-		ListElem data = (ListElem*)(aux->data);
-		while (data != NULL)
+		ListElem word = aux->data;
+		while (word != NULL)
 		{
-			printf("%c", data->data);
-			data = data->next;
+			printf("%c", word->data);
+			word = word->next;
 		}
+		printf(" ");
+		aux = aux->next;
+	}
+	//debug
+		/*printf("\n");
+		aux = list;
+		while (aux != NULL)
+		{
+			ListElem data = (ListElem*)(aux->data);
+			while (data != NULL)
+			{
+				printf("%d", data->index);
+				data = data->next;
+			}
+			printf(" ");
+			aux = aux->next;
+		}*/
+		/*printf("\n");
+		aux = list;
+		while (aux != NULL)
+		{
+			printf("%d ", aux->index);
+		 printf(" ");
+			aux = aux->next;
+		}*/
+}
+/*prints element of linked list*/
+void printElement(ListElem list)
+{
+	ListElem aux = list;
+
+	while (aux != NULL)
+	{
+		printf("%c", aux->data);
 		aux = aux->next;
 	}
 }
 
+/*prints the lists inside a linked list*/
 void printList2(LISTofLISTS list)
 {
 	LISTofLISTS aux = list;
@@ -144,24 +177,29 @@ void printList2(LISTofLISTS list)
 	}
 }
 
-void* getDataOfListElem(ListElem list,int index)
+ListElem getDataOfListElem(ListElem list,int index)
 {
-	if (list != NULL)
+	ListElem aux = list;
+	while (aux != NULL)
 	{
-		ListElem aux = list;
-		while (aux->index != index)
+		if (aux->index == index)
 		{
-			aux = aux->next;
+			break;
 		}
-		if (aux != NULL)
-		{
-			return aux->data;
-		}
-		else
-		{
-			return NULL;
-		}
+		aux = aux->next;
 	}
+
+	if (aux != NULL && aux->index == index)
+	{
+		printf("Found element\n\n");
+		return aux->data;
+	}
+	else
+	{
+		printf("Found nothing\n\n");
+		return NULL;
+	}
+
 }
 ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index)
 {

@@ -22,9 +22,9 @@ criar typedef para as armas e suas características
 2.2 --> atribuir uma arma de combate a cada jogador (em relação a preferencia) -- > Preferencia 1 é a principal
 
 
-1 --->> Leitura do ficheiro e colocar os dados em listas ligadas 
+1 --->> Leitura do ficheiro e colocar os dados em listas ligadas (feito)
 
-1.1 --->> salvar os dados em listas ligadas ( ou seja, para cada linha linkamos a uma lista )
+1.1 --->> salvar os dados em listas ligadas ( ou seja, para cada linha linkamos a uma lista ) (feito)
 
 3   --->> Exportar todos os dados
 

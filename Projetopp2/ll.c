@@ -206,19 +206,17 @@ ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index)
 	if (list != NULL)
 	{
 		LISTofLISTS aux = list;
-		while (aux->index != index)
+		while (aux != NULL && aux->index != index)
 		{
 			aux = aux->next;
 		}
+
 		if (aux != NULL)
 		{
 			return aux->list;
 		}
-		else
-		{
-			return NULL;
-		}
 	}
+	return NULL;
 }
 
 ListElem addItemHead(ListElem head, void* data) {

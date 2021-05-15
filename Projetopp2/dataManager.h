@@ -4,12 +4,12 @@
 
 // Estruturas de Dados
 
-typedef struct
+typedef struct pref
 {
 	char arma[50]; // arma de combate
 	int pontuacao; // 0 a 100
 	int index;
-} Preferences;
+}Preferences;
 
 typedef struct dados
 {
@@ -19,7 +19,7 @@ typedef struct dados
 }*Player;
 
 //manages the listoflists and sorts preferences of the players
-LISTofLISTS ManageData(LISTofLISTS list);
+void ManageData(LISTofLISTS list);
 //removes losing element of preference
 ListElem removeElement(ListElem list, int index);
 //add player data type to workbench

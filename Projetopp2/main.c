@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "ll.h"
-#include "dataManager.h"
 #include <locale.h>
 #include<conio.h>
+#include "ll.h"
+#include "dataManager.h"
+
 
 // Procedimento principal
 void main()
@@ -31,7 +32,6 @@ void main()
 		{
 			case 1:
 				list = readFile();
-				system("cls");
 				break;
 			case 2:
 				if (list == NULL)
@@ -41,10 +41,10 @@ void main()
 				else
 				{
 					ManageData(list);
-					/*printList2(list);*/
+					//printList2(list);
 				}
-				printf("Press any key to continue");
-				getchar();
+				/*printf("Press any key to continue");
+				getchar();*/
 				//system("cls");
 				break;
 			case 3:

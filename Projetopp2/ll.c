@@ -25,9 +25,9 @@ LISTofLISTS readFile()
 			for (int i = 0; i < strlen(line); i++)
 			{
 				//if blank sapce or new line command found, add item to data list and set item to nothing
-				if (line[i] == 32 || line[i] == 10)//espaço e nova linha
+				if (line[i] == 32 || line[i] == 10)//espaï¿½o e nova linha
 				{
-					//if (dataList != NULL)//se lista não for vazia adicionar esapço
+					//if (dataList != NULL)//se lista nï¿½o for vazia adicionar esapï¿½o
 					//{
 					//	ListElem spaceElement = NULL;
 					//	spaceElement = addItem(spaceElement, (char*)' ');
@@ -58,7 +58,7 @@ ListElem addItem(ListElem list, void* value)
 	int index = 0;
 	if (list == NULL)
 	{
-		ListElem newList = malloc(sizeof(ListElem));
+		ListElem newList = (ListElem*)malloc(sizeof(ListElem));
 		newList->data = value;
 		newList->next = NULL;
 		newList->index = index;
@@ -73,7 +73,7 @@ ListElem addItem(ListElem list, void* value)
 			list = list->next;
 			index = list->index;
 		}
-		ListElem newItem = malloc(sizeof(ListElem));
+		ListElem newItem = (ListElem*)malloc(sizeof(ListElem));
 		newItem->data = value;
 		newItem->next = NULL;
 		newItem->index = index + 1;

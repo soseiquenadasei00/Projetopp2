@@ -19,7 +19,7 @@ typedef struct dados
 }*Player;
 
 //manages the listoflists and sorts preferences of the players
-void ManageData(LISTofLISTS list);
+LISTofLISTS ManageData(LISTofLISTS list);
 //removes losing element of preference
 ListElem removeElement(ListElem list, int index);
 //add player data type to workbench

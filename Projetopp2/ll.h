@@ -8,7 +8,7 @@ typedef struct sListElem {
 
 typedef struct sListLists {
 	int index;
-	struct sListElem* list;
+	ListElem list;
 	struct sListLists* next;
 }*LISTofLISTS;
 
@@ -25,6 +25,8 @@ ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index);
 
 LISTofLISTS readFile();
 
+void ListSize(ListElem list);
+void ListOFListsSize(LISTofLISTS list);
 
 // Insert a new element with *data in the head of the list 
 // *data must point to storage in the heap

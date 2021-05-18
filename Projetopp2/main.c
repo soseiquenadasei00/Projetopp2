@@ -28,10 +28,14 @@ void main()
 		printf("-------------------------------------------\n");
 		printf("Choose one option: ");
 		scanf("%d",&answer);
+
 		switch (answer)
 		{
 			case 1:
+				list = NULL;
 				list = readFile();
+				printf("Dados Lidos:\n");
+				printList2(list);
 				break;
 			case 2:
 				if (list == NULL)
@@ -40,7 +44,7 @@ void main()
 				}
 				else
 				{
-					ManageData(list);
+					list = ManageData(list);
 					//printList2(list);
 				}
 				/*printf("Press any key to continue");

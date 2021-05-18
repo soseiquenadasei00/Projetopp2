@@ -25,8 +25,8 @@ ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index);
 
 LISTofLISTS readFile();
 
-void ListSize(ListElem list);
-void ListOFListsSize(LISTofLISTS list);
+int ListSize(ListElem list);
+int ListOFListsSize(LISTofLISTS list);
 
 // Insert a new element with *data in the head of the list 
 // *data must point to storage in the heap

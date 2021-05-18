@@ -6,22 +6,32 @@
 #include <string.h>
 #include <locale.h>
 
+void printPlayer(Player p) 
+{
+	printf("Número: %d\n", p->numero);
+	printf("Nome: %s\n", p->nome);
+
+	for (int i = 0; i < 5; i++)
+	{
+		printf("Arma: %s\n", p->preferencias[i].arma);
+		printf("Pontos: %d\n", p->preferencias[i].pontuacao);
+	}
+}
+
 LISTofLISTS ManageData(LISTofLISTS list)
 {
-	LISTofLISTS aux = list;
-	ListElem listOfPlayers = NULL;
-
-	while (aux->next != NULL)
+	LISTofLISTS aux1 = list;
+	int counter = ListOFListsSize(aux1);
+	ListElem playersList = NULL;
+	while (counter >= 0) 
 	{
-		ListElem list = aux->list;
-		ListSize(list); printf("\n");
-		listOfPlayers = addItem(listOfPlayers, createPlayer(list));
-		aux = aux->next;
+		Player newPlayer = createPlayer(getDataOfLISTofLISTS(aux1, counter-1));
+		playersList = addItem(playersList, &newPlayer);
+		counter -= 1;
 	}
-	aux = NULL;
-	aux = addItem2(aux, listOfPlayers);
+	ListSize(playersList);
 	
-	return aux;
+	return list;
 }
 
 ListElem removeElement(ListElem list, int index)
@@ -31,7 +41,8 @@ ListElem removeElement(ListElem list, int index)
 //creates new player
 Player createPlayer(ListElem list)
 {
-	printList(list); printf("\n");
+	/*printf("\n");
+	printList(list);*/
 	ListElem aux = list;
 	Player newPlayer = (Player*)malloc(sizeof(Player));
 	//setups player base
@@ -135,20 +146,3 @@ Player createPlayer(ListElem list)
 	printf("\n");*/
 	return newPlayer;
 }
-
-//int listLenght(ListElem list)
-//{
-//	int counter = 0;
-//	ListElem aux = list;
-//	while (aux != NULL)
-//	{
-//		counter++;
-//		aux = aux->next;
-//	}
-//	return counter;
-//}
-
-// bool ComparePreferences(Preferences p1, Preferences p2)
-// {
-
-// }

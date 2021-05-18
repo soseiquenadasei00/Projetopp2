@@ -27,4 +27,4 @@ Player createPlayer(ListElem list);
 //compares preferences
 bool ComparePreferences(Player p1, Player p2);
 
-int listLenght(ListElem list);
+void printPlayer(Player p);

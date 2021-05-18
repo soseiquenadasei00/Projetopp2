@@ -69,7 +69,7 @@ ListElem addItem(ListElem list, void* value)
 			index = list->index;
 		}
 		ListElem newItem = (ListElem*)malloc(sizeof(ListElem));
-		newItem->data = value;
+		newItem->data = (void*)value;
 		newItem->next = NULL;
 		newItem->index = index + 1;
 		list->next = newItem;
@@ -192,7 +192,7 @@ ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index)
 	return NULL;
 }
 
-void ListSize(ListElem list)
+int ListSize(ListElem list)
 {
 	ListElem aux = list;
 	int counter = 0;
@@ -201,10 +201,11 @@ void ListSize(ListElem list)
 		++counter;
 		aux = aux->next;
 	}
-	printf("ListELem size: %d", counter);
+	printf("ListELem size: %d\n", counter);
+	return counter;
 }
 
-void ListOFListsSize(LISTofLISTS list)
+int ListOFListsSize(LISTofLISTS list)
 {
 	LISTofLISTS aux = list;
 	int counter = 0;
@@ -213,7 +214,8 @@ void ListOFListsSize(LISTofLISTS list)
 		++counter;
 		aux = aux->next;
 	}
-	printf("ListOFLists size: %d", counter);
+	printf("ListOFLists size: %d\n", counter);
+	return counter;
 }
 
 ListElem addItemHead(ListElem head, void* data) {

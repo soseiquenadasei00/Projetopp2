@@ -8,41 +8,72 @@
 
 void printPlayer(Player p) 
 {
-	printf("Número: %d\n", p->numero);
-	printf("Nome: %s\n", p->nome);
+	Player aux = p;
+	printf("Número: %d\n", aux->numero);
+	printf("Nome: %s\n", aux->nome);
 
 	for (int i = 0; i < 5; i++)
 	{
-		printf("Arma: %s\n", p->preferencias[i].arma);
-		printf("Pontos: %d\n", p->preferencias[i].pontuacao);
+		printf("Arma: %s\n", aux->preferencias[i].arma);
+		printf("Pontos: %d\n", aux->preferencias[i].pontuacao);
 	}
 }
 
 LISTofLISTS ManageData(LISTofLISTS list)
 {
 	LISTofLISTS aux1 = list;
-	int counter = ListOFListsSize(aux1);
+	int counter = ListOFListsSize(aux1)-1;
 	ListElem playersList = NULL;
 	while (counter >= 0) 
 	{
-		Player newPlayer = createPlayer(getDataOfLISTofLISTS(aux1, counter-1));
-		playersList = addItem(playersList, &newPlayer);
+		Player newPlayer = createPlayer(getDataOfLISTofLISTS(aux1, counter));
+		playersList = addPlayer(playersList, newPlayer);
 		counter -= 1;
 	}
 	ListSize(playersList);
+	while (playersList != NULL)
+	{
+		printPlayer(playersList->data);
+		playersList = playersList->next;
+	}
+
 	
 	return list;
 }
 
-ListElem removeElement(ListElem list, int index)
+ListElem addPlayer(ListElem list, Player p)
 {
-
+	int index = 0;
+	if (list == NULL)
+	{
+		ListElem newList = (ListElem*)malloc(sizeof(ListElem));
+		newList->data = p;
+		newList->next = NULL;
+		newList->index = index;
+		list = newList;
+		return list;
+	}
+	else
+	{
+		ListElem aux = list;
+		while (list->next != NULL)
+		{
+			list = list->next;
+			index = list->index;
+		}
+		ListElem newItem = (ListElem*)malloc(sizeof(ListElem));
+		newItem->data = p;
+		newItem->next = NULL;
+		newItem->index = index + 1;
+		list->next = newItem;
+		list = aux;
+		return list;
+	}
 }
+
 //creates new player
 Player createPlayer(ListElem list)
 {
-	/*printf("\n");
-	printList(list);*/
 	ListElem aux = list;
 	Player newPlayer = (Player*)malloc(sizeof(Player));
 	//setups player base
@@ -60,6 +91,8 @@ Player createPlayer(ListElem list)
 			newPlayer->preferencias[i].arma[b] = 0;
 		}
 	}
+	//-----------------------
+	//Setup player data
 	if (aux != NULL)
 	{
 		ListElem data = aux->data;
@@ -78,7 +111,7 @@ Player createPlayer(ListElem list)
 		}
 		aux = aux->next;
 		data = aux->data;
-		//add name
+		//Add Name
 		for (int i = 0; i < 50; i++)
 		{
 			if (data != NULL)
@@ -93,7 +126,7 @@ Player createPlayer(ListElem list)
 		}
 		aux = aux->next;
 		int nAux = 0;
-		//add preferences
+		//Add Preferences
 		while (aux != NULL)
 		{
 			data = aux->data;
@@ -136,13 +169,5 @@ Player createPlayer(ListElem list)
 			aux = aux->next;
 		}
 	}
-	/*printf("numero: %d\n", newPlayer->numero);
-	printf("nome: %s\n", newPlayer->nome);
-	for (int i = 0; i < 5; i++)
-	{
-		printf("arma %d: %s\n", i, newPlayer->preferencias[i].arma);
-		printf("pontos: %d\n", newPlayer->preferencias[i].pontuacao);
-	}
-	printf("\n");*/
 	return newPlayer;
 }

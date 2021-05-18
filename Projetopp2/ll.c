@@ -5,6 +5,7 @@
 
 #include "ll.h"
 
+
 /*Read text file*/
 LISTofLISTS readFile()
 {
@@ -47,6 +48,7 @@ LISTofLISTS readFile()
 		return NULL;
 	}
 }
+
 /*add items to a linked list of type ListElem*/
 ListElem addItem(ListElem list, void* value)
 {

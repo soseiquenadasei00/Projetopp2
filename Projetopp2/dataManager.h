@@ -17,7 +17,7 @@ typedef struct dados
 	char nome[50];
 	Preferences preferencias[5]; // ordem de preferências (máximo de 5)
 }*Player;
-
+ListElem addPlayer(ListElem list, Player p);
 //manages the listoflists and sorts preferences of the players
 LISTofLISTS ManageData(LISTofLISTS list);
 //removes losing element of preference

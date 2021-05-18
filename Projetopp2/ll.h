@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
+
 typedef struct sListElem {
 	void* data;
 	int index;

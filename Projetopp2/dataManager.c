@@ -23,52 +23,73 @@ LISTofLISTS ManageData(LISTofLISTS list)
 {
 	LISTofLISTS aux1 = list;
 	int counter = ListOFListsSize(aux1)-1;
-	ListElem playersList = NULL;
+	playerList listP = NULL;
+	
 	while (counter >= 0) 
 	{
 		Player newPlayer = createPlayer(getDataOfLISTofLISTS(aux1, counter));
-		playersList = addPlayer(playersList, newPlayer);
+		//printPlayer(newPlayer);
+		listP = addPlayer(listP, newPlayer);
+		listP = listP->nextPlayer;
 		counter -= 1;
 	}
-	ListSize(playersList);
-	while (playersList != NULL)
-	{
-		printPlayer(playersList->data);
-		playersList = playersList->next;
-	}
-
 	
 	return list;
 }
 
-ListElem addPlayer(ListElem list, Player p)
+playerList addPlayer(playerList list, Player p)
 {
 	int index = 0;
 	if (list == NULL)
 	{
-		ListElem newList = (ListElem*)malloc(sizeof(ListElem));
-		newList->data = p;
-		newList->next = NULL;
+		playerList newList = (playerList*)malloc(sizeof(playerList));
+		newList->player = p;
+		newList->nextPlayer = NULL;
 		newList->index = index;
 		list = newList;
 		return list;
 	}
 	else
 	{
-		ListElem aux = list;
-		while (list->next != NULL)
+		playerList aux = list;
+		while (list->nextPlayer != NULL)
 		{
-			list = list->next;
+			list = list->nextPlayer;
 			index = list->index;
 		}
-		ListElem newItem = (ListElem*)malloc(sizeof(ListElem));
-		newItem->data = p;
-		newItem->next = NULL;
+		playerList newItem = (playerList*)malloc(sizeof(playerList));
+		newItem->player = p;
+		newItem->nextPlayer = NULL;
 		newItem->index = index + 1;
-		list->next = newItem;
+		list->nextPlayer = newItem;
 		list = aux;
 		return list;
 	}
+}
+
+Player getPlayerFromList(playerList list, int index)
+{
+	playerList aux = list;
+	while (aux != NULL)
+	{
+		if (aux->index == index)
+		{
+			break;
+		}
+		aux = aux->nextPlayer;
+	}
+
+	if (aux != NULL && aux->index == index)
+	{
+		printf("Found element\n\n");
+		return aux->player;
+	}
+	else
+	{
+		printf("Found nothing\n\n");
+		return NULL;
+	}
+
 }
 
 //creates new player

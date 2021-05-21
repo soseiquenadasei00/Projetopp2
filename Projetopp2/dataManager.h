@@ -21,13 +21,15 @@ typedef struct dados
 typedef struct listPlayers {
 	Player player;
 	int index;
-	struct sListElem* nextPlayer;
+	struct listPlayers* nextPlayer;
 } *playerList;
+
+int playerListSize(playerList list);
 
 playerList addPlayer(ListElem list, Player p);
 Player getPlayerFromList(ListElem list, int index);
 //manages the listoflists and sorts preferences of the players
-LISTofLISTS ManageData(LISTofLISTS list);
+void ManageData(LISTofLISTS list);
 //removes losing element of preference
 ListElem removeElement(ListElem list, int index);
 //add player data type to workbench
@@ -36,3 +38,5 @@ Player createPlayer(ListElem list);
 bool ComparePreferences(Player p1, Player p2);
 
 void printPlayer(Player p);
+
+void Export(LISTofLISTS list);

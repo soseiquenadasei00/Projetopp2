@@ -28,7 +28,6 @@ void main()
 		printf("-------------------------------------------\n");
 		printf("Choose one option: ");
 		scanf("%d",&answer);
-
 		switch (answer)
 		{
 			case 1:
@@ -44,14 +43,12 @@ void main()
 				}
 				else
 				{
-					list = ManageData(list);
+					ManageData(list);
 					//printList2(list);
 				}
-				/*printf("Press any key to continue");
-				getchar();*/
-				//system("cls");
 				break;
 			case 3:
+				Export(list);
 				break;
 			case 4:
 				running = false;

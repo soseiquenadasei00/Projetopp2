@@ -5,16 +5,19 @@
 
 #include "ll.h"
 
-
 /*Read text file*/
 LISTofLISTS readFile()
 {
 	char address[200] = {0};
-	char line[100];
+	char line[100] = {0};
 
 	printf("Data address: ");
+	
 	scanf("%s",&address);
-	FILE* file = fopen(address, "r");
+	
+	FILE* file = NULL;
+	file = fopen(address, "r");
+	
 	if (file != NULL)
 	{
 		LISTofLISTS returnList = NULL;
@@ -71,7 +74,7 @@ ListElem addItem(ListElem list, void* value)
 			index = list->index;
 		}
 		ListElem newItem = (ListElem*)malloc(sizeof(ListElem));
-		newItem->data = (void*)value;
+		newItem->data = value;
 		newItem->next = NULL;
 		newItem->index = index + 1;
 		list->next = newItem;

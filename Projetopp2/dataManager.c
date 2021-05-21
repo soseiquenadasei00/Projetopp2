@@ -19,22 +19,78 @@ void printPlayer(Player p)
 	}
 }
 
-LISTofLISTS ManageData(LISTofLISTS list)
+void Export(LISTofLISTS list)
 {
-	LISTofLISTS aux1 = list;
-	int counter = ListOFListsSize(aux1)-1;
-	playerList listP = NULL;
-	
-	while (counter >= 0) 
+	if (list != NULL)
 	{
-		Player newPlayer = createPlayer(getDataOfLISTofLISTS(aux1, counter));
-		//printPlayer(newPlayer);
-		listP = addPlayer(listP, newPlayer);
-		listP = listP->nextPlayer;
-		counter -= 1;
+		LISTofLISTS aux = list;
+		FILE* exportFile = NULL;
+		exportFile = fopen("export.txt", "w");
+		while (aux != NULL)
+		{
+			ListElem line = getDataOfLISTofLISTS(list, aux->index);
+			while (line != NULL)
+			{
+				ListElem data = getDataOfListElem(line, line->index);
+				while (data != NULL)
+				{
+					char character = (char*)data->data;
+					fputc(character, exportFile);
+					data = data->next;
+				}
+				fputc(' ', exportFile);
+				line = line->next;
+			}
+			fputc('\n', exportFile);
+			aux = aux->next;
+		}
+		fclose(exportFile);
+	}
+	else
+	{
+		printf("No data loaded\n");
+	}
+}
+
+int playerListSize(playerList list) 
+{
+	playerList aux = list;
+	int counter = 0;
+	while (aux != NULL)
+	{
+		++counter;
+		aux = aux->nextPlayer;
+	}
+	printf("ListELem size: %d\n", counter);
+	return counter;
+}
+/*
+pega lista de players
+cria variáveis player com os dados e salva em lista ligada
+gerencia os dados das variáveis fp tipo player
+*/
+void ManageData(LISTofLISTS list)
+{
+	LISTofLISTS aux = list;
+	/*int counter = ListOFListsSize(aux) - 1;*/
+	while (aux!=NULL)
+	{
+		ListElem playerData = getDataOfLISTofLISTS(aux, aux->index);
+		printList(playerData);
+		printf("\n\n");
+		aux = aux->next;
 	}
 	
-	return list;
+	/*Player tempPlayer = createPlayer(playerData);
+	printPlayer(tempPlayer);*/
+	/*while (counter >= 0)
+	{
+		ListElem playerData = getDataOfLISTofLISTS(aux, counter);
+		Player tempPlayer = createPlayer(playerData);
+		printPlayer(tempPlayer);
+		counter -= 1;
+	}*/
+
 }
 
 playerList addPlayer(playerList list, Player p)

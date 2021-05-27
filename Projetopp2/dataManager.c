@@ -1,22 +1,134 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "ll.h"
+
 #include "dataManager.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
 
-void printPlayer(Player p) 
+jogo getNumberOfGuns(jogo j)
+{
+	jogo aux = j;
+	jogo returnJogo;
+	returnJogo.armas = NULL;
+	while (aux.armas != NULL)
+	{
+		ARMA tempArma = aux.armas->data;
+		int num = 0;
+		tempArma->numero = 0;
+		printf("numero de %s:", tempArma->nome);
+		scanf("%d", &num);
+		tempArma->numero = num;
+
+		returnJogo.armas = addItem(returnJogo.armas, (ARMA*)tempArma);
+		aux.armas = aux.armas->next;
+	}
+	printf("\n");
+	return returnJogo;
+}
+
+jogo ManageJogo(jogo j)
+{
+	jogo aux1 = j;
+	jogo returnJogo;
+	returnJogo.armas = NULL;
+
+	ARMA a0 = aux1.armas->data;
+	returnJogo.armas = addItem(returnJogo.armas, (ARMA*)a0);
+
+	jogo originList;
+	originList.armas = returnJogo.armas;
+
+	int logic = 0;
+
+	while (aux1.armas != NULL)
+	{
+		ARMA a1 = aux1.armas->data;
+		while (returnJogo.armas != NULL)
+		{
+			ARMA a2 = returnJogo.armas->data;
+
+			if (strcmp(a1->nome, a2->nome) == 0)
+			{
+				logic++;
+			}
+			returnJogo.armas = returnJogo.armas->next;
+		}
+		returnJogo.armas = originList.armas;
+		if (logic == 0)
+		{
+			returnJogo.armas = addItem(returnJogo.armas, (ARMA*)a1);
+		}
+		logic = 0;
+		aux1.armas = aux1.armas->next;
+	}
+
+	returnJogo = getNumberOfGuns(returnJogo);
+	return returnJogo;
+}
+
+jogo getGuns(LISTofLISTS list)
+{
+	//returns game with the guns that will be needed to be given numbers in real time
+	LISTofLISTS aux = list;
+	jogo j;
+	j.armas = NULL;
+	while (aux != NULL)
+	{
+		int i = 0;
+		//lista de characteres
+		ListElem list1 = aux->list;
+		while (list1 != NULL)
+		{
+			i = 0;
+			if (list1->index >= 2 && list1->index % 2 == 0)
+			{
+				ListElem data = list1->data;
+				if (data->data != '-')
+				{
+					char temp[50] = { 0 };
+					while (data != NULL)
+					{
+						temp[i] = data->data;
+						i++;
+						data = data->next;
+					}
+					ARMA newArma = (struct arma*)malloc(sizeof(ARMA));
+					for (i = 0; i < 50; i++)
+					{
+						newArma->nome[i] = temp[i];
+						if (temp[i] == 0)
+						{
+							break;
+						}
+					}
+					j.armas = addItem(j.armas, (ARMA*)newArma);
+				}
+			}
+			list1 = list1->next;
+		}
+		aux = aux->next;
+	}
+	j = ManageJogo(j);
+
+	return j;
+}
+
+void printPlayer(Player p)
 {
 	Player aux = p;
-	printf("Número: %d\n", aux->numero);
-	printf("Nome: %s\n", aux->nome);
+	printf("--------------------\n");
+	printf("Numero: %d\n", aux->numero);
+	printf("Nome: %s\n\n", aux->nome);
 
 	for (int i = 0; i < 5; i++)
 	{
-		printf("Arma: %s\n", aux->preferencias[i].arma);
-		printf("Pontos: %d\n", aux->preferencias[i].pontuacao);
+		Preferences tempPref = aux->preferencia[i];
+		printf("Arma: %s\n", tempPref.arma);
+		printf("Pontos: %d\n", tempPref.pontos);
 	}
+
+	printf("--------------------\n");
 }
 
 void Export(LISTofLISTS list)
@@ -34,7 +146,7 @@ void Export(LISTofLISTS list)
 				ListElem data = getDataOfListElem(line, line->index);
 				while (data != NULL)
 				{
-					char character = (char*)data->data;
+					char character = data->data;
 					fputc(character, exportFile);
 					data = data->next;
 				}
@@ -51,19 +163,6 @@ void Export(LISTofLISTS list)
 		printf("No data loaded\n");
 	}
 }
-
-int playerListSize(playerList list) 
-{
-	playerList aux = list;
-	int counter = 0;
-	while (aux != NULL)
-	{
-		++counter;
-		aux = aux->nextPlayer;
-	}
-	printf("ListELem size: %d\n", counter);
-	return counter;
-}
 /*
 pega lista de players
 cria variáveis player com os dados e salva em lista ligada
@@ -72,179 +171,131 @@ gerencia os dados das variáveis fp tipo player
 void ManageData(LISTofLISTS list)
 {
 	LISTofLISTS aux = list;
-	/*int counter = ListOFListsSize(aux) - 1;*/
-	while (aux!=NULL)
-	{
-		ListElem playerData = getDataOfLISTofLISTS(aux, aux->index);
-		printList(playerData);
-		printf("\n\n");
-		aux = aux->next;
-	}
-	
-	/*Player tempPlayer = createPlayer(playerData);
-	printPlayer(tempPlayer);*/
-	/*while (counter >= 0)
-	{
-		ListElem playerData = getDataOfLISTofLISTS(aux, counter);
-		Player tempPlayer = createPlayer(playerData);
-		printPlayer(tempPlayer);
-		counter -= 1;
-	}*/
-
-}
-
-playerList addPlayer(playerList list, Player p)
-{
-	int index = 0;
-	if (list == NULL)
-	{
-		playerList newList = (playerList*)malloc(sizeof(playerList));
-		newList->player = p;
-		newList->nextPlayer = NULL;
-		newList->index = index;
-		list = newList;
-		return list;
-	}
-	else
-	{
-		playerList aux = list;
-		while (list->nextPlayer != NULL)
-		{
-			list = list->nextPlayer;
-			index = list->index;
-		}
-		playerList newItem = (playerList*)malloc(sizeof(playerList));
-		newItem->player = p;
-		newItem->nextPlayer = NULL;
-		newItem->index = index + 1;
-		list->nextPlayer = newItem;
-		list = aux;
-		return list;
-	}
-}
-
-Player getPlayerFromList(playerList list, int index)
-{
-	playerList aux = list;
+	ListElem players = NULL;
 	while (aux != NULL)
 	{
-		if (aux->index == index)
+		Player p = NULL;
+		p = createPlayer(aux->list);
+		players = addItem(players, (Player*)p);
+		aux = aux->next;
+	}
+
+	while (players != NULL)
+	{
+		//verificar cada preferencia de cada player com outras de outros players
+		for (int i = 0; i < 5; i++)
 		{
-			break;
+
 		}
-		aux = aux->nextPlayer;
+		printPlayer((Player)players->data);
+		players = players->next;
 	}
+}
 
-	if (aux != NULL && aux->index == index)
-	{
-		printf("Found element\n\n");
-		return aux->player;
-	}
-	else
-	{
-		printf("Found nothing\n\n");
-		return NULL;
-	}
+void ComparePreferences(Player p1, Player p2)
+{
+	/*
+		comparar strings
 
+		se p1 arma == p2 arma
+			se p1 pontos > p2 pontos
+				p2 arma = '-'
+				p2 pontos = 0
+			senão se p1 pontos < p2 pontos
+				p1 arma = '-'
+				p1 pontos = 0
+			senão
+				nada acontece
+	*/
 }
 
 //creates new player
 Player createPlayer(ListElem list)
 {
-	ListElem aux = list;
-	Player newPlayer = (Player*)malloc(sizeof(Player));
-	//setups player base
+	Player newPlayer = (struct dados*)malloc(sizeof(struct dados));
 	newPlayer->numero = 0;
+	//Setup player data
+	ListElem aux = list;
+	ListElem data = aux->data;
+	//add number
+	while (data != NULL)
+	{
+		if (newPlayer->numero == 0)
+		{
+			newPlayer->numero = (int)(data->data) - 48;
+		}
+		else
+		{
+			newPlayer->numero = (newPlayer->numero * 10) + ((int)(data->data) - 48);
+		}
+		data = data->next;
+	}
+	aux = aux->next;
+	data = aux->data;
+	//Add Name
 	for (int i = 0; i < 50; i++)
 	{
-		newPlayer->nome[i] = 0;
-	}
-	for (int i = 0; i < 5; i++)
-	{
-		newPlayer->preferencias[i].index = i;
-		newPlayer->preferencias[i].pontuacao = 0;
-		for (int b = 0; b < 50; b++)
+		if (data != NULL)
 		{
-			newPlayer->preferencias[i].arma[b] = 0;
-		}
-	}
-	//-----------------------
-	//Setup player data
-	if (aux != NULL)
-	{
-		ListElem data = aux->data;
-		//add number
-		while (data != NULL)
-		{
-			if (newPlayer->numero == 0)
-			{
-				newPlayer->numero = (int)(data->data) - 48;
-			}
-			else
-			{
-				newPlayer->numero = (newPlayer->numero * 10) + ((int)(data->data) - 48);
-			}
+			newPlayer->nome[i] = data->data;
 			data = data->next;
 		}
-		aux = aux->next;
-		data = aux->data;
-		//Add Name
-		for (int i = 0; i < 50; i++)
+		else if (data == NULL)
 		{
-			if (data != NULL)
-			{
-				newPlayer->nome[i] = data->data;
-				data = data->next;
-			}
-			else if(data == NULL)
-			{
-				break;
-			}
+			newPlayer->nome[i] = 0;
+			break;
 		}
-		aux = aux->next;
-		int nAux = 0;
-		//Add Preferences
-		while (aux != NULL)
+	}
+
+	aux = aux->next;
+	int nAux = 0;
+
+	//Add Preferences
+	Preferences newPref;
+	newPref.pontos = 0;
+
+	while (aux != NULL)
+	{
+		data = aux->data;
+		if (aux->index % 2 == 0)
 		{
-			data = aux->data;
-			if (aux->index % 2 == 0)
+			//nome da arma
+			for (int i = 0; i < 50; i++)
 			{
-				for (int i = 0; i < 50; i++)
+				if (data != NULL)
 				{
-					if (data != NULL && data->data != '-')
-					{
-						newPlayer->preferencias[nAux].arma[i] = data->data;
-						data = data->next;
-					}
-					else if (data == NULL || data->data == '-')
-					{
-						break;
-					}
-				}
-			}
-			else
-			{
-				while (data != NULL)
-				{
-					if (data->data != '-')
-					{
-						if (newPlayer->preferencias[nAux].pontuacao == 0)
-						{
-							newPlayer->preferencias[nAux].pontuacao = (int)data->data - 48;
-							//printf("add first number: %d\n", newPlayer->preferencias[nAux].pontuacao);
-						}
-						else
-						{
-							newPlayer->preferencias[nAux].pontuacao = (newPlayer->preferencias[nAux].pontuacao * 10) + ((int)data->data - 48);
-							//printf("add next number: %d\n", newPlayer->preferencias[nAux].pontuacao);
-						}
-					}
+					newPref.arma[i] = data->data;
 					data = data->next;
 				}
-				nAux += 1;
+				else if (data == NULL)
+				{
+					newPref.arma[i] = 0;
+					break;
+				}
 			}
-			aux = aux->next;
+
 		}
+		else
+		{
+			//pontos
+			newPref.pontos = 0;
+			while (data != NULL)
+			{
+				if (data->data == '-')
+				{
+					newPref.pontos = 0;
+				}
+				else
+				{
+					newPref.pontos = newPref.pontos * 10 + ((char*)data->data - (int)48);
+				}
+				data = data->next;
+			}
+
+			newPlayer->preferencia[nAux] = newPref;
+			nAux += 1;
+		}
+		aux = aux->next;
 	}
 	return newPlayer;
 }

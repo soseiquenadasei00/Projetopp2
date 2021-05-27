@@ -20,9 +20,9 @@ void printList(ListElem list);
 void printList2(LISTofLISTS list);
 void printElement(ListElem list);
 
-ListElem getDataOfListElem(ListElem list,int index);
+ListElem getDataOfListElem(ListElem list, int index);
 
-ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index);
+ListElem getDataOfLISTofLISTS(LISTofLISTS list, int index);
 
 LISTofLISTS readFile();
 

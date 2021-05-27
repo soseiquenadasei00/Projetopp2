@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <locale.h>
-#include<conio.h>
+#include <conio.h>
 #include "ll.h"
 #include "dataManager.h"
 
@@ -12,9 +12,11 @@
 // Procedimento principal
 void main()
 {
+	system("cls");
 	bool running = true;
 	int answer;
 	LISTofLISTS list = NULL;
+	jogo dadosDoJogo;
 
 	setlocale(LC_ALL, "Portuguese");
 	do
@@ -27,37 +29,49 @@ void main()
 		printf("(4) Sair do programa\n");
 		printf("-------------------------------------------\n");
 		printf("Choose one option: ");
-		scanf("%d",&answer);
+		scanf("%d", &answer);
 		switch (answer)
 		{
-			case 1:
-				list = NULL;
-				list = readFile();
-				printf("Dados Lidos:\n");
-				printList2(list);
-				break;
-			case 2:
-				if (list == NULL)
-				{
-					printf("No data loaded\n\n");
-				}
-				else
-				{
-					ManageData(list);
-					//printList2(list);
-				}
-				break;
-			case 3:
-				Export(list);
-				break;
-			case 4:
-				running = false;
-				printf("Thank You for playing\n");
-				break;
-			default:
-				printf("Not a valid option!");
-				break;
+		case 1:
+			list = NULL;
+			list = readFile();
+			dadosDoJogo = getGuns(list);
+			printf("Dados Lidos:\n");
+			printList2(list);
+			getchar();
+			printf("Press Enter key to continue...");
+			getchar();
+			system("cls");
+			break;
+		case 2:
+			if (list == NULL)
+			{
+				printf("No data loaded\n");
+			}
+			else
+			{
+				ManageData(list);
+				//printList2(list);
+			}
+			getchar();
+			printf("Press Enter key to continue...");
+			getchar();
+			system("cls");
+			break;
+		case 3:
+			Export(list);
+			getchar();
+			printf("Press Enter key to continue...");
+			getchar();
+			system("cls");
+			break;
+		case 4:
+			running = false;
+			system("cls");
+			break;
+		default:
+			printf("Not a valid option!");
+			break;
 		}
-	}
-	while (running);
+	} 	while (running);
 }

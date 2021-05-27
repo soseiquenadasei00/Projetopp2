@@ -8,18 +8,19 @@
 /*Read text file*/
 LISTofLISTS readFile()
 {
-	char address[200] = {0};
-	char line[100] = {0};
+	char address[200] = { 0 };
+	char line[100] = { 0 };
 
 	printf("Data address: ");
-	
-	scanf("%s",&address);
-	
+
+	scanf("%s", &address);
+
 	FILE* file = NULL;
 	file = fopen(address, "r");
-	
+
 	if (file != NULL)
 	{
+		// printf("checkpoint 1\n");
 		LISTofLISTS returnList = NULL;
 		//file = fopen(address, "r");
 		while (fgets(line, 200, file))
@@ -32,22 +33,30 @@ LISTofLISTS readFile()
 				//if blank sapce or new line command found, add item to data list and set item to nothing
 				if (line[i] == 32 || line[i] == 10)//espaço e nova linha
 				{
+					// printf("checkpoint 2\n");
 					dataList1 = addItem(dataList1, (ListElem*)tempList);
+					// printList(dataList1);
+					// printf("\n");
 					tempList = NULL;
 				}
 				else//add char to item found
 				{
 					//palavra a ser formada
-					tempList = addItem(tempList, (char*)line[i]);
+					// printf("checkpoint 3\n");
+					tempList = addItem(tempList, line[i]);
+					// printElement(tempList);
+					// printf("\n");
 				}
 			}
 			returnList = addItem2(returnList, dataList1);
 		}
 		fclose(file);
+		// printf("Leitura Realizada\n");
 		return returnList;
 	}
 	else
 	{
+		fclose(file);
 		return NULL;
 	}
 }
@@ -58,8 +67,8 @@ ListElem addItem(ListElem list, void* value)
 	int index = 0;
 	if (list == NULL)
 	{
-		ListElem newList = (ListElem*)malloc(sizeof(ListElem));
-		newList->data = value;
+		ListElem newList = (struct sListElem*)malloc(sizeof(ListElem));
+		newList->data = (void*)value;
 		newList->next = NULL;
 		newList->index = index;
 		list = newList;
@@ -73,8 +82,8 @@ ListElem addItem(ListElem list, void* value)
 			list = list->next;
 			index = list->index;
 		}
-		ListElem newItem = (ListElem*)malloc(sizeof(ListElem));
-		newItem->data = value;
+		ListElem newItem = (struct sListElem*)malloc(sizeof(ListElem));
+		newItem->data = (void*)value;
 		newItem->next = NULL;
 		newItem->index = index + 1;
 		list->next = newItem;
@@ -88,7 +97,7 @@ LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 	int index = 0;
 	if (list1 == NULL)
 	{
-		LISTofLISTS newList = (LISTofLISTS*)malloc(sizeof(LISTofLISTS));
+		LISTofLISTS newList = (struct sListLists*)malloc(sizeof(LISTofLISTS));
 		newList->list = list2;
 		newList->next = NULL;
 		newList->index = index;
@@ -104,10 +113,10 @@ LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 			list1 = list1->next;
 			index = list1->index;
 		}
-		LISTofLISTS newItem = (LISTofLISTS*)malloc(sizeof(LISTofLISTS));
+		LISTofLISTS newItem = (struct sListLists*)malloc(sizeof(LISTofLISTS));
 		newItem->list = list2;
 		newItem->next = NULL;
-		newItem->index = index+1;
+		newItem->index = index + 1;
 		list1->next = newItem;
 		list1 = aux;
 		return list1;
@@ -130,6 +139,7 @@ void printList(ListElem list)
 		printf(" ");
 		aux = aux->next;
 	}
+	printf("\n");
 }
 /*prints element of linked list*/
 void printElement(ListElem list)
@@ -155,7 +165,7 @@ void printList2(LISTofLISTS list)
 	}
 }
 
-ListElem getDataOfListElem(ListElem list,int index)
+ListElem getDataOfListElem(ListElem list, int index)
 {
 	ListElem aux = list;
 	while (aux != NULL)
@@ -169,17 +179,17 @@ ListElem getDataOfListElem(ListElem list,int index)
 
 	if (aux != NULL && aux->index == index)
 	{
-		printf("Found element\n\n");
+		// printf("Found element\n\n");
 		return aux->data;
 	}
 	else
 	{
-		printf("Found nothing\n\n");
+		// printf("Found nothing\n\n");
 		return NULL;
 	}
 
 }
-ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index)
+ListElem getDataOfLISTofLISTS(LISTofLISTS list, int index)
 {
 	if (list != NULL)
 	{
@@ -199,28 +209,42 @@ ListElem getDataOfLISTofLISTS(LISTofLISTS list,int index)
 
 int ListSize(ListElem list)
 {
-	ListElem aux = list;
-	int counter = 0;
-	while (aux != NULL)
+	if (list == NULL)
 	{
-		++counter;
-		aux = aux->next;
+		return 0;
 	}
-	printf("ListELem size: %d\n", counter);
-	return counter;
+	else
+	{
+		ListElem aux = list;
+		int counter = 0;
+		while (aux != NULL)
+		{
+			++counter;
+			aux = aux->next;
+		}
+		printf("ListELem size: %d\n", counter);
+		return counter;
+	}
 }
 
 int ListOFListsSize(LISTofLISTS list)
 {
-	LISTofLISTS aux = list;
-	int counter = 0;
-	while (aux != NULL)
+	if (list == NULL)
 	{
-		++counter;
-		aux = aux->next;
+		return 0;
 	}
-	printf("ListOFLists size: %d\n", counter);
-	return counter;
+	else
+	{
+		LISTofLISTS aux = list;
+		int counter = 0;
+		while (aux != NULL)
+		{
+			++counter;
+			aux = aux->next;
+		}
+		printf("ListOFLists size: %d\n", counter);
+		return counter;
+	}
 }
 
 ListElem addItemHead(ListElem head, void* data) {

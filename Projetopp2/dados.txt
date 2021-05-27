@@ -2,4 +2,4 @@
 2 Rubem Metralhadora 96 - - - -
 3 Joana Espingarda 52 Pistola 52 Sniper 43
 4 Maria Metralhadora 87 Sniper 86 - -
-5 Carlos Sniper 63 - - - - 
+5 Carlos Metralhadora 85 - - - - 

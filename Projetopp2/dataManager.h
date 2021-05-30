@@ -33,8 +33,13 @@ jogo ManageJogo(jogo j);
 jogo getGuns(LISTofLISTS list);
 jogo getNumberOfGuns(jogo j);
 
+ListElem Replace(ListElem list, Player data);
+
+ListElem playerListWithGun(ListElem list, ARMA a);
+int getIndexOfPreference(Player p, ARMA g);
+
 //manages the listoflists and sorts preferences of the players
-void ManageData(LISTofLISTS list);
+void ManageData(LISTofLISTS list, jogo dadosDasArmas);
 //removes losing element of preference
 ListElem removeElement(ListElem list, int index);
 //add player data type to workbench

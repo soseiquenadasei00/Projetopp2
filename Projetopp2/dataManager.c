@@ -180,48 +180,36 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 		players = addItem(players, (Player*)p);
 		aux = aux->next;
 	}
-
-
-	while (auxJogo.armas != NULL)
+	int counter = 0;
+	//registra as preferencias
+	while (counter < 5)
 	{
-		ListElem tempPlayers = playerListWithGun(players, auxJogo.armas);
-		ARMA tempA = auxJogo.armas;
-		printf("%d ->", tempA->numero);
-		int counter = 0;
-		if (ListSize(tempPlayers) > tempA->numero)
+		ListElem start = auxJogo.armas;
+		//verificar se há armas para verificação
+		while (auxJogo.armas != NULL)
 		{
-			ListElem tempPlayers2 = NULL;
-			// ListElem tempPlayers3 = NULL;
+			ARMA arma = auxJogo.armas->data;
+			//printf("Prefencia %d\n%s\n", counter , arma->nome);
+			ListElem playersWithGun = playerListWithGun(players, arma, counter);
+			ListElem playersWithGunStart = playersWithGun;
 
-			while (tempPlayers != NULL)
+			if (ListSize(playersWithGun) > arma->numero)
 			{
-				if (counter == getIndexOfPreference(tempPlayers->data, auxJogo.armas))
+				int* numbers = (int*)malloc(ListSize(playersWithGun) * sizeof(int));
+				//passar dados para array
+				for (int i = 0; i < ListSize(playersWithGun); i++)
 				{
-					tempPlayers2 = addItem(tempPlayers2, tempPlayers->data);
-				}
-				tempPlayers = tempPlayers->next;
-			}
-			ARMA tempARMA = auxJogo.armas;
-			if (ListSize(tempPlayers2) <= tempARMA->numero)
-			{
-				tempARMA->numero -= ListSize(tempPlayers2);
-			}
-			else
-			{
-				int* numbers = (int*)malloc(ListSize(tempPlayers2) * sizeof(int));
-				ListElem listStart = tempPlayers2;
-				for (int i = 0; i < ListSize(tempPlayers2); i++)
-				{
-					Player tempP = tempPlayers2->data;
-					numbers[i] = tempP->preferencia[counter].pontos;
-					tempPlayers2 = tempPlayers2->next;
+					Player auxP = playersWithGun->data;
+					numbers[i] = auxP->preferencia[counter].pontos;
+					playersWithGun = playersWithGun->next;
 				}
 
-				tempPlayers2 = listStart;
+				playersWithGun = playersWithGunStart;
 
-				for (int i = 0; i < ListSize(tempPlayers2); ++i)
+				//sort dados de array descrescente
+				for (int i = 0; i < ListSize(playersWithGun); ++i)
 				{
-					for (int j = i + 1; j < ListSize(tempPlayers2); ++j)
+					for (int j = i + 1; j < ListSize(playersWithGun); ++j)
 					{
 						if (numbers[i] < numbers[j])
 						{
@@ -231,34 +219,42 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 						}
 					}
 				}
-
-				for (int b = 0; b < ListSize(tempPlayers2); b++)
+				printf("preferencia %d e Arma %s\n", counter,arma->nome);
+				ListSize(playersWithGun); printf("\n");
+				
+				for (int i = 0; i < ListSize(playersWithGun); i++)
 				{
-					while (tempPlayers2 != NULL)
+					while (playersWithGun != NULL)
 					{
-						Player tempP = tempPlayers2->data;
-						if (tempP->preferencia[counter].pontos == numbers[b])
+						Player temp = playersWithGun->data;
+						if (temp->preferencia[counter].pontos == numbers[i])
 						{
-							if (tempARMA->numero > 0)
+							if (arma->numero <= 0)
 							{
-								tempARMA->numero -= 1;
+								temp->preferencia[counter].arma[0] = '-';
+								temp->preferencia[counter].arma[1] = 0;
+								temp->preferencia[counter].pontos = 0;
+								players = Replace(players, temp, temp);
 							}
 							else
 							{
-								tempP->preferencia[counter].arma[0] = '-';
-								tempP->preferencia[counter].arma[1] = 0;
-								tempP->preferencia[counter].pontos = 0;
+								arma->numero -= 1;
 							}
-							players = Replace(players, tempP);
 						}
-						tempPlayers2 = tempPlayers2->next;
+
+						playersWithGun = playersWithGun->next;
 					}
+					playersWithGun = playersWithGunStart;
 				}
 			}
-			counter++;
+			else
+			{
+				arma->numero -= ListSize(playersWithGun);
+			}
+			auxJogo.armas = auxJogo.armas->next;
 		}
-		else printf("n entrei\n");
-		auxJogo.armas = auxJogo.armas->next;
+		auxJogo.armas = start;
+		counter++;
 	}
 
 	while (players != NULL)
@@ -266,24 +262,23 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 		printPlayer(players->data);
 		players = players->next;
 	}
-
 }
 
-ListElem Replace(ListElem list, Player data)
+ListElem Replace(ListElem list, Player data1, Player data2)
 {
 	ListElem aux = list;
 	while (aux != NULL)
 	{
-		Player temp = aux->data;
-		if (strcmp(temp->nome, data->nome) == 0)
+		Player comparePlayer = aux->data;
+		if (strcmp(comparePlayer->nome, data1->nome) == 0)
 		{
-			printf("Passei\n");
-			aux->data = data;
+			aux->data = data2;
 		}
 		aux = aux->next;
 	}
 	aux = list;
 	return aux;
+	
 }
 
 
@@ -299,20 +294,17 @@ int getIndexOfPreference(Player p, ARMA g)
 	return 0;
 }
 
-ListElem playerListWithGun(ListElem list, ARMA a)
+ListElem playerListWithGun(ListElem list, ARMA a,int index)
 {
 	ListElem aux = list;
 	ListElem returnList = NULL;
+
 	while (aux != NULL)
 	{
 		Player tempP = aux->data;
-		for (int i = 0; i < 5; i++)
+		if (strcmp(tempP->preferencia[index].arma, a->nome) == 0)
 		{
-			if (strcmp(tempP->preferencia[i].arma, a->nome) == 0)
-			{
-				returnList = addItem(returnList, (Player*)tempP);
-				break;
-			}
+			returnList = addItem(returnList, (Player*)tempP);
 		}
 		aux = aux->next;
 	}
@@ -426,3 +418,87 @@ Player createPlayer(ListElem list)
 	}
 	return newPlayer;
 }
+
+
+//ListElem tempPlayers = playerListWithGun(players, auxJogo.armas->data);
+//ARMA tempA = auxJogo.armas->data;
+//printf("%d ->", tempA->numero);
+
+//int counter = 0;
+//
+//if (ListSize(tempPlayers) > tempA->numero)
+//{
+//	ListElem tempPlayers2 = NULL;
+//	// ListElem tempPlayers3 = NULL;
+
+//	while (tempPlayers != NULL)
+//	{
+//		if (counter == getIndexOfPreference(tempPlayers->data, auxJogo.armas))
+//		{
+//			tempPlayers2 = addItem(tempPlayers2, tempPlayers->data);
+//		}
+//		tempPlayers = tempPlayers->next;
+//	}
+//	ARMA tempARMA = auxJogo.armas;
+//	if (ListSize(tempPlayers2) <= tempARMA->numero)
+//	{
+//		tempARMA->numero -= ListSize(tempPlayers2);
+//	}
+//	else
+//	{
+//		int* numbers = (int*)malloc(ListSize(tempPlayers2) * sizeof(int));
+//		ListElem listStart = tempPlayers2;
+//		for (int i = 0; i < ListSize(tempPlayers2); i++)
+//		{
+//			Player tempP = tempPlayers2->data;
+//			numbers[i] = tempP->preferencia[counter].pontos;
+//			tempPlayers2 = tempPlayers2->next;
+//		}
+
+//		tempPlayers2 = listStart;
+
+//		for (int i = 0; i < ListSize(tempPlayers2); ++i)
+//		{
+//			for (int j = i + 1; j < ListSize(tempPlayers2); ++j)
+//			{
+//				if (numbers[i] < numbers[j])
+//				{
+//					int a = numbers[i];
+//					numbers[i] = numbers[j];
+//					numbers[j] = a;
+//				}
+//			}
+//		}
+
+//		for (int b = 0; b < ListSize(tempPlayers2); b++)
+//		{
+//			while (tempPlayers2 != NULL)
+//			{
+//				Player tempP = tempPlayers2->data;
+//				if (tempP->preferencia[counter].pontos == numbers[b])
+//				{
+//					if (tempARMA->numero > 0)
+//					{
+//						tempARMA->numero -= 1;
+//					}
+//					else
+//					{
+//						tempP->preferencia[counter].arma[0] = '-';
+//						tempP->preferencia[counter].arma[1] = 0;
+//						tempP->preferencia[counter].pontos = 0;
+//					}
+//					players = Replace(players, tempP);
+//				}
+//				tempPlayers2 = tempPlayers2->next;
+//			}
+//		}
+//	}
+//	counter++;
+//}
+//else
+//{
+//	printf("%d - %d = ", tempA->numero,ListSize(tempPlayers));
+//	tempA->numero -= ListSize(tempPlayers);
+//	printf("%d\n", tempA->numero);
+//}
+//else printf("n entrei\n");

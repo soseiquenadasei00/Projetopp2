@@ -211,6 +211,7 @@ int ListSize(ListElem list)
 {
 	if (list == NULL)
 	{
+		printf("ListELem size: 0\n");
 		return 0;
 	}
 	else

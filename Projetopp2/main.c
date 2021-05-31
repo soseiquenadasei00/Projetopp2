@@ -36,6 +36,7 @@ void main()
 			list = NULL;
 			list = readFile();
 			dadosDoJogo = getGuns(list);
+			
 			printf("Dados Lidos:\n");
 			printList2(list);
 			getchar();
@@ -50,7 +51,7 @@ void main()
 			}
 			else
 			{
-				ManageData(list);
+				ManageData(list,dadosDoJogo);
 				//printList2(list);
 			}
 			getchar();

@@ -50,7 +50,7 @@ void main()
 			}
 			else
 			{
-				ManageData(list);
+				ManageData(list,dadosDoJogo);
 				//printList2(list);
 			}
 			getchar();

@@ -211,6 +211,7 @@ int ListSize(ListElem list)
 {
 	if (list == NULL)
 	{
+		//printf("ListELem size: 0\n");
 		return 0;
 	}
 	else
@@ -222,7 +223,7 @@ int ListSize(ListElem list)
 			++counter;
 			aux = aux->next;
 		}
-		printf("ListELem size: %d\n", counter);
+		//printf("ListELem size: %d\n", counter);
 		return counter;
 	}
 }

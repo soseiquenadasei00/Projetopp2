@@ -35,9 +35,10 @@ jogo getNumberOfGuns(jogo j);
 
 ListElem Replace(ListElem list, Player data);
 
-ListElem playerListWithGun(ListElem list, ARMA a);
+ListElem playerListWithGun(ListElem list, ARMA a,int index);
 int getIndexOfPreference(Player p, ARMA g);
 
+Player getPlayerWithPref(ListElem list, int counter, int number);
 //manages the listoflists and sorts preferences of the players
 void ManageData(LISTofLISTS list, jogo dadosDasArmas);
 //removes losing element of preference

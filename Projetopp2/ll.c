@@ -91,6 +91,28 @@ ListElem addItem(ListElem list, void* value)
 		return list;
 	}
 }
+
+ListElem addHead(ListElem list, void* value)
+{
+	int index = 0;
+	if (list == NULL)
+	{
+		ListElem newList = (struct sListElem*)malloc(sizeof(ListElem));
+		newList->data = (void*)value;
+		newList->next = NULL;
+		newList->index = index;
+		list = newList;
+		return list;
+	}
+	else
+	{
+		ListElem newItem = (struct sListElem*)malloc(sizeof(ListElem));
+		newItem->data = (void*)value;
+		newItem->next = list;
+		newItem->index = index;	
+		return newItem;
+	}
+}
 /*add items to a linked list of type LISTofLISTS*/
 LISTofLISTS addItem2(LISTofLISTS list1, ListElem list2)
 {

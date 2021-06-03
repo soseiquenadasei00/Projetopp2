@@ -131,48 +131,58 @@ void printPlayer(Player p)
 	printf("--------------------\n");
 }
 
-void Export(LISTofLISTS list)
+void Export(ListElem list,jogo dadosDasArmas,int i)
 {
-	if (list != NULL)
+	ListElem aux = list;
+	ListElem listaDeArmas = dadosDasArmas.armas;
+	char nome[20] = "Export";
+	nome[6] = i + 48;
+	nome[7] = '.';
+	nome[8] = 't';
+	nome[9] = 'x';
+	nome[10] = 't';
+	nome[11] = 0;
+
+	FILE* file = fopen(nome, "w");
+	while (listaDeArmas != NULL)
 	{
-		LISTofLISTS aux = list;
-		FILE* exportFile = NULL;
-		exportFile = fopen("export.txt", "w");
+		ARMA arma = listaDeArmas->data;
+		fprintf(file, "%s\n\n", arma->nome);
+
 		while (aux != NULL)
 		{
-			ListElem line = getDataOfLISTofLISTS(list, aux->index);
-			while (line != NULL)
+			Player tempPlayer = aux->data;
+			for (int i = 0; i < 5; i++)
 			{
-				ListElem data = getDataOfListElem(line, line->index);
-				while (data != NULL)
-				{
-					char character = data->data;
-					fputc(character, exportFile);
-					data = data->next;
+				if (strcmp(tempPlayer->preferencia[i].arma, arma->nome) == 0 && i == 0)
+				{					
+					fprintf(file, "Numero do Player: %d\t", tempPlayer->numero);					
+					fprintf(file, "Nome do Player: %s\t", tempPlayer->nome);
+					fprintf(file, "Pontos da arma: %d\t ", tempPlayer->preferencia[i].pontos);
+
+					if (tempPlayer->preferencia[i].empate == 1)
+					{
+						fprintf(file, "(EMPATE)");
+					}
+					fprintf(file, "\n\n");
 				}
-				fputc(' ', exportFile);
-				line = line->next;
 			}
-			fputc('\n', exportFile);
 			aux = aux->next;
 		}
-		fclose(exportFile);
+		aux = list;
+		listaDeArmas = listaDeArmas->next;
 	}
-	else
-	{
-		printf("No data loaded\n");
-	}
+	fclose(file);
 }
-/*
-pega lista de players
-cria variáveis player com os dados e salva em lista ligada
-gerencia os dados das variáveis fp tipo player
-*/
+
+
+
 void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 {
 	LISTofLISTS aux = list;
 	jogo auxJogo = dadosDasArmas;
 	ListElem players = NULL;
+	ListElem rejectedPlayers = NULL;
 	while (aux != NULL)
 	{
 		Player p = NULL;
@@ -212,136 +222,64 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 					}
 				}
 			}
-			/*ARMA test = auxJogo.armas->data;
-
-			printf("\n%s(%d)\n",test->nome,counter);
-			for (int i = 0; i < ListSize(tempPlayers); ++i)
-			{
-				printf("%d -> ", numbers[i]);
-			}*/
-
+			
 			ARMA arma = auxJogo.armas->data;
 			for (int b = 0; b < size; b++)
 			{
 				Player auxPlayer = getPlayerWithPref(players, counter, numbers[b]);
-				if (arma->numero > 0)
+				if (arma->numero == 1)
+				{
+					if (b + 1 != size)
+					{
+						if (numbers[b] > numbers[b+1])
+						{
+							printf("entregar %s para %s\n", arma->nome,auxPlayer->nome);
+							arma->numero -= 1;
+							auxPlayer->preferencia[counter].empate = 0;
+							players = Replace(players, auxPlayer);
+						}
+						else if (numbers[b] == numbers[b + 1])
+						{
+							Player auxPlayer2 = getOtherPlayerWithPref(players, counter, numbers[b + 1],auxPlayer);							
+							printf("empate entre %s e %s\n",auxPlayer->nome,auxPlayer2->nome);
+
+							auxPlayer->preferencia[counter].empate = 1;
+							auxPlayer2->preferencia[counter].empate = 1;													
+
+							players = Replace(players, auxPlayer);
+							players = Replace(players, auxPlayer2);
+						}
+					}
+					else if(b+1 == size)
+					{
+						arma->numero -= 1;
+						auxPlayer->preferencia[counter].empate = 0;
+						players = Replace(players, auxPlayer);
+					}
+
+				}
+				else if (arma->numero > 1)
 				{
 					arma->numero -= 1;
+					auxPlayer->preferencia[counter].empate = 0;
+					players = Replace(players, auxPlayer);
 				}
 				else
 				{
+					rejectedPlayers = addItem(rejectedPlayers,auxPlayer);
 					auxPlayer->preferencia[counter].arma[0] = '-';
 					auxPlayer->preferencia[counter].arma[1] = 0;
 					auxPlayer->preferencia[counter].pontos = 0;
+					auxPlayer->preferencia[counter].empate = 0;
 					players = Replace(players, auxPlayer);
 				}
 			}
-
-
-			/*	ARMA tempARMA = auxJogo.armas->data;
-				while (tempPlayers != NULL)
-				{
-					Player tempP = tempPlayers->data;
-					if (tempP->preferencia[counter].pontos == numbers[b])
-					{
-						if (tempARMA->numero > 0)
-						{
-							tempARMA->numero -= 1;
-						}
-						else
-						{
-							tempP->preferencia[counter].arma[0] = '-';
-							tempP->preferencia[counter].arma[1] = 0;
-							tempP->preferencia[counter].pontos = 0;
-						}
-						players = Replace(players, tempP);
-					}
-					tempPlayers = tempPlayers->next;
-				}
-			}*/
-
 		}
-		/*ARMA tempA = auxJogo.armas;
-		int counter = 0;*/
-		//if (ListSize(tempPlayers) > tempA->numero)
-		//{
-		//	ListElem tempPlayers2 = NULL;
-		//	// ListElem tempPlayers3 = NULL;
 
-		//	while (tempPlayers != NULL)
-		//	{
-		//		if (counter == getIndexOfPreference(tempPlayers->data, auxJogo.armas))
-		//		{
-		//			tempPlayers2 = addItem(tempPlayers2, tempPlayers->data);
-		//		}
-		//		tempPlayers = tempPlayers->next;
-		//	}
-		//	ARMA tempARMA = auxJogo.armas->data;
-		//	if (ListSize(tempPlayers2) <= tempARMA->numero)
-		//	{
-		//		tempARMA->numero -= ListSize(tempPlayers2);
-		//	}
-		//	else
-		//	{
-		//		int* numbers = (int*)malloc(ListSize(tempPlayers2) * sizeof(int));
-		//		ListElem listStart = tempPlayers2;
-		//		for (int i = 0; i < ListSize(tempPlayers2); i++)
-		//		{
-		//			Player tempP = tempPlayers2->data;
-		//			numbers[i] = tempP->preferencia[counter].pontos;
-		//			tempPlayers2 = tempPlayers2->next;
-		//		}
-
-		//		tempPlayers2 = listStart;
-
-		//		for (int i = 0; i < ListSize(tempPlayers2); ++i)
-		//		{
-		//			for (int j = i + 1; j < ListSize(tempPlayers2); ++j)
-		//			{
-		//				if (numbers[i] < numbers[j])
-		//				{
-		//					int a = numbers[i];
-		//					numbers[i] = numbers[j];
-		//					numbers[j] = a;
-		//				}
-		//			}
-		//		}
-
-		//		for (int b = 0; b < ListSize(tempPlayers2); b++)
-		//		{
-		//			while (tempPlayers2 != NULL)
-		//			{
-		//				Player tempP = tempPlayers2->data;
-		//				if (tempP->preferencia[counter].pontos == numbers[b])
-		//				{
-		//					if (tempARMA->numero > 0)
-		//					{
-		//						tempARMA->numero -= 1;
-		//					}
-		//					else
-		//					{
-		//						tempP->preferencia[counter].arma[0] = '-';
-		//						tempP->preferencia[counter].arma[1] = 0;
-		//						tempP->preferencia[counter].pontos = 0;
-		//					}
-		//					players = Replace(players, tempP);
-		//				}
-		//				tempPlayers2 = tempPlayers2->next;
-		//			}
-		//		}
-		//	}
-		//	counter++;
-		//}
-		//else printf("n entrei\n");
 		auxJogo.armas = auxJogo.armas->next;
 	}
-
-	while (players != NULL)
-	{
-		printPlayer(players->data);
-		players = players->next;
-	}
-
+	Export(rejectedPlayers, dadosDasArmas,1);
+	Export(players,dadosDasArmas,0);
 }
 
 Player getPlayerWithPref(ListElem list, int counter, int number)
@@ -360,6 +298,40 @@ Player getPlayerWithPref(ListElem list, int counter, int number)
 	return NULL;
 }
 
+Player getOtherPlayerWithPref(ListElem list, int counter, int number, Player notThis)
+{
+	ListElem aux = list;
+	Player auxPlayer;
+	while (aux != NULL)
+	{
+		auxPlayer = aux->data;
+		if (auxPlayer->preferencia[counter].pontos == number && auxPlayer->numero != notThis->numero)
+		{
+			return auxPlayer;
+		}
+		aux = aux->next;
+	}
+	return NULL;
+}
+
+Player getPlayerWithPref2(ListElem list, ARMA gun)
+{
+	ListElem aux = list;
+	while (aux != NULL)
+	{
+		Player p = aux->data;
+		for (int i = 0; i < 5; i++)
+		{
+			if (strcmp(p->preferencia[i].arma, gun->nome) == 0)
+			{
+				return p;
+			}
+		}
+		aux = aux->next;
+	}
+	return NULL;
+}
+
 ListElem Replace(ListElem list, Player data)
 {
 	ListElem aux = list;
@@ -368,7 +340,7 @@ ListElem Replace(ListElem list, Player data)
 		Player temp = aux->data;
 		if (strcmp(temp->nome, data->nome) == 0)
 		{
-			printf("Passei\n");
+			//printf("Passei\n");
 			aux->data = data;
 		}
 		aux = aux->next;
@@ -406,23 +378,6 @@ ListElem playerListWithGun(ListElem list, ARMA a, int index)
 		aux = aux->next;
 	}
 	return returnList;
-}
-
-void ComparePreferences(Player p1, Player p2)
-{
-	/*
-		comparar strings
-
-		se p1 arma == p2 arma
-			se p1 pontos > p2 pontos
-				p2 arma = '-'
-				p2 pontos = 0
-			senão se p1 pontos < p2 pontos
-				p1 arma = '-'
-				p1 pontos = 0
-			senão
-				nada acontece
-	*/
 }
 
 //creates new player

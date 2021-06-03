@@ -1,0 +1,12 @@
+Sniper
+
+Numero do Player: 4	Nome do Player: Maria	Pontos da arma: 87	 
+
+Espingarda
+
+Numero do Player: 3	Nome do Player: Joana	Pontos da arma: 52	 
+
+Pistola
+
+Metralhadora
+

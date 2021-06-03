@@ -60,7 +60,7 @@ void main()
 			system("cls");
 			break;
 		case 3:
-			Export(list);
+			//Export(list);
 			getchar();
 			printf("Press Enter key to continue...");
 			getchar();

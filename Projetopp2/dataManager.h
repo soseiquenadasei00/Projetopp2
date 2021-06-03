@@ -20,6 +20,7 @@ typedef struct pref
 	char arma[50]; // arma de combate
 	int pontos; // 0 a 100
 	int index;
+	int empate;
 }Preferences;
 
 typedef struct dados
@@ -36,18 +37,19 @@ jogo getNumberOfGuns(jogo j);
 ListElem Replace(ListElem list, Player data);
 
 ListElem playerListWithGun(ListElem list, ARMA a,int index);
+
 int getIndexOfPreference(Player p, ARMA g);
 
 Player getPlayerWithPref(ListElem list, int counter, int number);
+Player getOtherPlayerWithPref(ListElem list, int counter, int number,Player notThis);
+Player getPlayerWithPref2(ListElem list, ARMA gun);
 //manages the listoflists and sorts preferences of the players
 void ManageData(LISTofLISTS list, jogo dadosDasArmas);
 //removes losing element of preference
 ListElem removeElement(ListElem list, int index);
 //add player data type to workbench
 Player createPlayer(ListElem list);
-//compares preferences
-void ComparePreferences(Player p1, Player p2);
 
 void printPlayer(Player p);
 
-void Export(LISTofLISTS list);
+void Export(ListElem list, jogo dadosDasArmas,int i);

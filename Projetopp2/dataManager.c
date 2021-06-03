@@ -266,7 +266,7 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 				}
 				else
 				{
-					rejectedPlayers = addItem(rejectedPlayers,auxPlayer);
+					//rejectedPlayers = addItem(rejectedPlayers,rejectedPlayer);
 					auxPlayer->preferencia[counter].arma[0] = '-';
 					auxPlayer->preferencia[counter].arma[1] = 0;
 					auxPlayer->preferencia[counter].pontos = 0;
@@ -278,7 +278,7 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 
 		auxJogo.armas = auxJogo.armas->next;
 	}
-	Export(rejectedPlayers, dadosDasArmas,1);
+	//Export(rejectedPlayers, dadosDasArmas,1);
 	Export(players,dadosDasArmas,0);
 }
 
@@ -349,7 +349,7 @@ ListElem Replace(ListElem list, Player data)
 	return aux;
 }
 
-
+//
 int getIndexOfPreference(Player p, ARMA g)
 {
 	for (int i = 0; i < 5; i++)

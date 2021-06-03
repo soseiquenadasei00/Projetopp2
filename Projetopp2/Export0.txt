@@ -10,5 +10,3 @@ Pistola
 
 Metralhadora
 
-Numero do Player: 2	Nome do Player: José	Pontos da arma: 96	 
-

@@ -24,9 +24,8 @@ void main()
 		printf("\n\tMENU\n");
 		printf("-------------------------------------------\n");
 		printf("(1) Carregar dados de texto\n");
-		printf("(2) Escrever dados em tabela\n");
-		printf("(3) Exportar os dados em tabela de texto\n");
-		printf("(4) Sair do programa\n");
+		printf("(2) Gerenciar dados em tabela\n");
+		printf("(3) Sair do programa\n");
 		printf("-------------------------------------------\n");
 		printf("Choose one option: ");
 		scanf("%d", &answer);
@@ -60,13 +59,6 @@ void main()
 			system("cls");
 			break;
 		case 3:
-			//Export(list);
-			getchar();
-			printf("Press Enter key to continue...");
-			getchar();
-			system("cls");
-			break;
-		case 4:
 			running = false;
 			system("cls");
 			break;

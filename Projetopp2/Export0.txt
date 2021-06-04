@@ -1,12 +1,26 @@
 Sniper
 
-Numero do Player: 4	Nome do Player: Maria	Pontos da arma: 87	 
+Numero do Player: 1	Nome do Player: João	Nível de Prefêrencia: 1	Pontos da arma: 75	
+
+Numero do Player: 4	Nome do Player: Maria	Nível de Prefêrencia: 1	Pontos da arma: 87	
+
+Numero do Player: 5	Nome do Player: Carlos	Nível de Prefêrencia: 1	Pontos da arma: 75	(EMPATE)
 
 Espingarda
 
-Numero do Player: 3	Nome do Player: Joana	Pontos da arma: 52	 
+Numero do Player: 2	Nome do Player: José	Nível de Prefêrencia: 1	Pontos da arma: 40	
+
+Numero do Player: 3	Nome do Player: Joana	Nível de Prefêrencia: 1	Pontos da arma: 52	
 
 Pistola
 
+Numero do Player: 3	Nome do Player: Joana	Nível de Prefêrencia: 2	Pontos da arma: 52	
+
+Numero do Player: 4	Nome do Player: Maria	Nível de Prefêrencia: 2	Pontos da arma: 86	
+
 Metralhadora
+
+Numero do Player: 2	Nome do Player: José	Nível de Prefêrencia: 2	Pontos da arma: 96	
+
+Numero do Player: 5	Nome do Player: Carlos	Nível de Prefêrencia: 2	Pontos da arma: 63	
 

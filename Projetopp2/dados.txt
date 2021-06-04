@@ -1,5 +1,5 @@
 1 João Sniper 75 Espingarda 76 Pistola 64
-2 José Metralhadora 96
+2 José Espingarda 40 Metralhadora 96
 3 Joana Espingarda 52 Pistola 52 Sniper 41
-4 Maria Sniper 87 Sniper 86
+4 Maria Sniper 87 Pistola 86
 5 Carlos Sniper 75 Metralhadora 63 Espingarda 44 

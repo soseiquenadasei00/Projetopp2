@@ -152,19 +152,64 @@ void Export(ListElem list,jogo dadosDasArmas,int i)
 		while (aux != NULL)
 		{
 			Player tempPlayer = aux->data;
-			for (int i = 0; i < 5; i++)
+			/*if (tempPlayer->preferencia[0].pontos != 0)
 			{
-				if (strcmp(tempPlayer->preferencia[i].arma, arma->nome) == 0 && i == 0)
-				{					
-					fprintf(file, "Numero do Player: %d\t", tempPlayer->numero);					
+				if (strcmp(tempPlayer->preferencia[i].arma, arma->nome) == 0)
+				{
+					fprintf(file, "Numero do Player: %d\t", tempPlayer->numero);
 					fprintf(file, "Nome do Player: %s\t", tempPlayer->nome);
-					fprintf(file, "Pontos da arma: %d\t ", tempPlayer->preferencia[i].pontos);
+					fprintf(file, "Nível de Prefêrencia: %d\t", i);
+					fprintf(file, "Pontos da arma: %d\t", tempPlayer->preferencia[i].pontos);
 
 					if (tempPlayer->preferencia[i].empate == 1)
 					{
 						fprintf(file, "(EMPATE)");
 					}
 					fprintf(file, "\n\n");
+					break;
+				}
+			}
+			else
+			{
+				for (int i = 1; i < 5; i++)
+				{
+					if (tempPlayer->preferencia[i].pontos != 0)
+					{
+						if (strcmp(tempPlayer->preferencia[i].arma, arma->nome) == 0)
+						{
+							fprintf(file, "Numero do Player: %d\t", tempPlayer->numero);
+							fprintf(file, "Nome do Player: %s\t", tempPlayer->nome);
+							fprintf(file, "Nível de Prefêrencia: %d\t", i);
+							fprintf(file, "Pontos da arma: %d\t", tempPlayer->preferencia[i].pontos);
+
+							if (tempPlayer->preferencia[i].empate == 1)
+							{
+								fprintf(file, "(EMPATE)");
+							}
+							fprintf(file, "\n\n");
+							break;
+						}
+					}
+				}
+			}*/
+			for (int i = 0; i < 5; i++)
+			{
+				if (tempPlayer->preferencia[i].pontos != 0)
+				{
+					if (strcmp(tempPlayer->preferencia[i].arma, arma->nome) == 0)
+					{
+						fprintf(file, "Numero do Player: %d\t", tempPlayer->numero);
+						fprintf(file, "Nome do Player: %s\t", tempPlayer->nome);
+						fprintf(file, "Nível de Prefêrencia: %d\t", i+1);
+						fprintf(file, "Pontos da arma: %d\t", tempPlayer->preferencia[i].pontos);
+
+						if (tempPlayer->preferencia[i].empate == 1)
+						{
+							fprintf(file, "(EMPATE)");
+						}
+						fprintf(file, "\n\n");
+						break;
+					}
 				}
 			}
 			aux = aux->next;
@@ -278,6 +323,7 @@ void ManageData(LISTofLISTS list, jogo dadosDasArmas)
 
 		auxJogo.armas = auxJogo.armas->next;
 	}
+	
 	//Export(rejectedPlayers, dadosDasArmas,1);
 	Export(players,dadosDasArmas,0);
 }
